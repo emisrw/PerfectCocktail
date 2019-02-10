@@ -1,6 +1,7 @@
 
 // Instanciate the Classes
-const ui = new UI();
+const ui = new UI(),
+    cocktail = new CocktailAPI();
 // Create event listeners
 function eventListeners() {
 
@@ -19,7 +20,14 @@ function getCocktails(e) {
     if(searchTerm === '') {
         ui.printMessage('Please add something into the form','danger');
     } else {
-
+        cocktail.getDrinksByName(searchTerm)
+        .then(cocktails  => {
+           if(cocktails.cocktails.drinks === null) {
+            ui.printMessage('No results, try diffrent term','danger');
+           } else {
+            console.log(cocktails);
+           }
+        })
     }
 
 }

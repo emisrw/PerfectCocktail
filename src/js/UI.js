@@ -1,5 +1,23 @@
 class UI {
-   
+	 
+		displayCategories() {
+			const categoryList = cocktail.getCategories()
+				.then(  categories => {
+					const catList = categories.categories.drinks;
+					const firstOption = document.createElement('option');
+					firstOption.textContent = '- Select -';
+					firstOption.value = '';
+					document.querySelector('#search').appendChild(firstOption);
+					catList.forEach(category => {
+						const option = document.createElement('option');
+						option.textContent = category.strCategory;
+						option.value= category.strCategory.split(' ').join('_');
+						document.querySelector('#search').appendChild(option);
+					})
+				});
+				
+		
+		}
     displayDrinks(drinks) {
         const resultsWrapper = document.querySelector('.results-wrapper');
         resultsWrapper.style.display = 'block';

@@ -5,6 +5,7 @@ const ui = new UI(),
 // Create event listeners
 function eventListeners() {
 
+	document.addEventListener('DOMContentLoaded', documentReady);
 
  const searchForm = document.querySelector('#search-form');
  if(searchForm) {
@@ -61,5 +62,13 @@ function resultsDelegation(e) {
 				.then(recipe => {
 					ui.displaySingleRecipe(recipe.recipe.drinks[0]);
 				});
+	}
+}
+// 
+function documentReady() {
+
+	const searchCategory = document.querySelector('.search-category');
+	if(searchCategory) {
+		ui.displayCategories();
 	}
 }

@@ -16,4 +16,9 @@ class CocktailAPI {
       const recipe = await apiResponse.json();
       return { recipe }
     }
+    async getCategories() {
+      const apiResponse = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list`);
+      const categories = await apiResponse.json();
+      return { categories }
+    }
 }

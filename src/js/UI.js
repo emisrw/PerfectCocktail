@@ -1,5 +1,28 @@
 class UI {
    
+    displayDrinks(drinks) {
+        const resultsWrapper = document.querySelector('.results-wrapper');
+        resultsWrapper.style.display = 'block';
+        // Insert the results
+        const resultsDiv = document.querySelector('#results');
+        // Loop trought drinks
+        drinks.forEach(drink => {
+             resultsDiv.innerHTML += `
+                  <div class="col-md-4">
+                       <div class="card my-3">
+                            <button type="button" data-id="${drink.idDrink}" class="favorite-btn btn btn-outline-info">
+                            +
+                            </button>
+                            <img class="card-img-top" src="${drink.strDrinkThumb}" alt="${drink.strDrink}">
+                            <div class="card-body">
+                                 <h2 class="card-title text-center">${drink.strDrink}</h2>
+                                 <a data-target="#recipe" class="btn btn-success get-recipe" href="#" data-toggle="modal" data-id="${drink.idDrink}">Get Recipe</a>
+                            </div>
+                       </div>
+                  </div>
+             `;
+        });
+    }
     displayDrinksWithIngredients(drinks) {
         
         const resultsWrapper = document.querySelector('.results-wrapper');
@@ -46,8 +69,9 @@ class UI {
     displayIngredients(drink) {
         let ingredients = [];
         for(let i =1; i< 16; i++) {
-            const ingredientMeasure = {};
-            if( drink[`strIngredient${i}`] !== '') {
+						const ingredientMeasure = {};
+						console.log(drink[`strIngredient${i}`]); 
+            if( drink[`strIngredient${i}`] !== '' && drink[`strIngredient${i}`] !== null) {
                 ingredientMeasure.ingredient = drink[`strIngredient${i}`]; 
                 ingredientMeasure.measure = drink[`strMeasure${i}`]; 
                 ingredients.push(ingredientMeasure); 
@@ -64,7 +88,17 @@ class UI {
         } );
         return ingredientsTemplate
         
-    }
+		}
+		
+		displaySingleRecipe(recipe){
+				const modalTitle = document.querySelector('.modal-title'),
+							modalDescription = document.querySelector('.modal-body .description-text'),
+							modalIndegrients = document.querySelector('.modal-body .ingredient-list .list-group');
+
+				modalTitle.innerHTML = recipe.strDrink;
+				modalDescription.innerHTML = recipe.strInstructions; 
+				modalIndegrients.innerHTML = this.displayIngredients(recipe);
+		}
     // Displays custom message\
     printMessage(message, className) {
         const div = document.createElement('div');
@@ -81,7 +115,13 @@ class UI {
         parentNode.insertBefore(div, reference);
         setTimeout(()=> {
             document.querySelector('.alert').remove();
-        },3000)
-    }
-
+        },3000);
+		}
+		clearResults() {
+			const resultsDiv = document.querySelector('#results');
+			resultsDiv.innerHTML='';
+		}
+		
+		
+		
 }

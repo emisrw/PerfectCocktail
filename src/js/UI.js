@@ -40,6 +40,7 @@ class UI {
                   </div>
              `;
         });
+        this.isFavorite();
     }
     displayDrinksWithIngredients(drinks) {
         
@@ -81,14 +82,13 @@ class UI {
             </div>
             `;
         });
-
+        this.isFavorite();
     }
    
     displayIngredients(drink) {
         let ingredients = [];
         for(let i =1; i< 16; i++) {
 						const ingredientMeasure = {};
-						console.log(drink[`strIngredient${i}`]); 
             if( drink[`strIngredient${i}`] !== '' && drink[`strIngredient${i}`] !== null) {
                 ingredientMeasure.ingredient = drink[`strIngredient${i}`]; 
                 ingredientMeasure.measure = drink[`strMeasure${i}`]; 
@@ -116,7 +116,34 @@ class UI {
 				modalTitle.innerHTML = recipe.strDrink;
 				modalDescription.innerHTML = recipe.strInstructions; 
 				modalIndegrients.innerHTML = this.displayIngredients(recipe);
-		}
+    }
+
+    displayFavorites(favorites) {
+      const favoritesTable = document.querySelector('#favorites tbody');
+      favorites.forEach( drink => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>
+                <img src="${drink.image}" alt="${drink.name}" width=100>
+            </td>
+            <td>${drink.name}</td>
+            <td>
+                <a href="#" data-toggle="modal" data-target="#recipe" data-id="${drink.id}" class="btn btn-succes get-recipe">
+                View
+                </a>
+            </td>
+            <td>
+              <a href="#"  data-id="${drink.id}" class="btn btn-danger remove-recipe">
+              Remove
+              </a>
+          </td>
+          `;
+          favoritesTable.appendChild(tr);
+      })
+    }
+    removeFavorites(element) {
+      element.remove();
+    }
     // Displays custom message\
     printMessage(message, className) {
         const div = document.createElement('div');
@@ -139,7 +166,17 @@ class UI {
 			const resultsDiv = document.querySelector('#results');
 			resultsDiv.innerHTML='';
 		}
-		
+		isFavorite() {
+      const drinks = cocktailDB.getFromDB();
+      drinks.forEach(drink=> {
+        let {id} = drink;
+        let favoriteDrink = document.querySelector(`[data-id="${id}"]`);
+        if(favoriteDrink) {
+          favoriteDrink.classList.add('is-favorite');
+          favoriteDrink.textContent='-';
+        }
+      })
+    }
 		
 		
 }

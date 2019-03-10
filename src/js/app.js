@@ -38,10 +38,17 @@ function getCocktails(e) {
             break;
             case 'ingredient':
             serverReponse =  cocktail.getDrinksByIngredient(searchTerm);
+            case 'category':
+            serverReponse =  cocktail.getDrinksByCategory(searchTerm);
+            case 'alcohol':
+            serverReponse =  cocktail.getDrinksByAlcohol(searchTerm);
             break;
-				}
-				ui.clearResults();
+			}
+                
+            
+        ui.clearResults();
         serverReponse.then(cocktails  => {
+          
            if(cocktails.cocktails.drinks === null) {
             ui.printMessage('No results, try diffrent term','danger');
            } else {
